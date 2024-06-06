@@ -1,4 +1,4 @@
-# artVision: AI-Powered Artwork Classifier
+# artVision
 
 ## Overview
 
@@ -81,3 +81,5 @@ artvision/
 ├── requirements.txt     # List of dependencies
 │
 └── README.md            # Project README file
+
+
