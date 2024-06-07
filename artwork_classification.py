@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from PIL import Image
 
 # Constants
-img_height, img_width = 128, 128  # Example dimensions, adjust as needed
+img_height, img_width = 128, 128  # Adjusted image dimensions
 
 # Load metadata from artists.csv
 metadata_df = pd.read_csv("artists.csv")
@@ -37,25 +37,42 @@ labels = np.array(labels)
 X_train, X_val_test, y_train, y_val_test = train_test_split(images, labels, test_size=0.3, random_state=42)
 X_val, X_test, y_val, y_test = train_test_split(X_val_test, y_val_test, test_size=0.5, random_state=42)
 
+# Data Augmentation
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+
+datagen = ImageDataGenerator(
+    rotation_range=40,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    shear_range=0.2,
+    zoom_range=0.2,
+    horizontal_flip=True,
+    fill_mode='nearest'
+)
+
+# Fit the generator to your training data
+datagen.fit(X_train)
+
 # Define CNN model architecture
 model = models.Sequential([
-    layers.Conv2D(32, (3, 3), activation='relu', input_shape=(img_height, img_width, 3)),
+    layers.Conv2D(64, (3, 3), activation='relu', input_shape=(img_height, img_width, 3)),
     layers.MaxPooling2D((2, 2)),
-    layers.Conv2D(64, (3, 3), activation='relu'),
+    layers.Conv2D(128, (3, 3), activation='relu'),
     layers.MaxPooling2D((2, 2)),
-    layers.Conv2D(64, (3, 3), activation='relu'),
+    layers.Conv2D(128, (3, 3), activation='relu'),
     layers.Flatten(),
-    layers.Dense(64, activation='relu'),
+    layers.Dense(128, activation='relu'),
     layers.Dense(num_classes, activation='softmax')
 ])
 
-# Compile the model
-model.compile(optimizer='adam',
+# Compile the model with a different learning rate and optimizer
+optimizer = tf.keras.optimizers.Adam(learning_rate=0.0001)
+model.compile(optimizer=optimizer,
               loss='sparse_categorical_crossentropy',
               metrics=['accuracy'])
 
-# Train the model
-history = model.fit(X_train, y_train, epochs=10, validation_data=(X_val, y_val))
+# Train the model with data augmentation
+history = model.fit(datagen.flow(X_train, y_train, batch_size=32), epochs=20, validation_data=(X_val, y_val))
 
 # Evaluate the model
 test_loss, test_acc = model.evaluate(X_test, y_test)
