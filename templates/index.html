@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtVision - Result</title>
+</head>
+<body>
+    <h1>Prediction Result</h1>
+    <p>Predicted Artist: {{ artist }}</p>
+    <p>Years: {{ years }}</p>
+    <p>Genre: {{ genre }}</p>
+    <p>Nationality: {{ nationality }}</p>
+    <p>Biography: {{ bio }}</p>
+    <p>Wikipedia: <a href="{{ wikipedia }}" target="_blank">Link</a></p>
+    <p>Number of Paintings: {{ paintings }}</p>
+    <img src="{{ url_for('uploaded_file', filename=filename) }}" alt="Uploaded Image">
+    <br>
+    <a href="/">Upload Another Image</a>
+</body>
+</html>

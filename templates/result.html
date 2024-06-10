@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Classification Result</title>
+</head>
+<body>
+    <h1>Classification Result</h1>
+    <img src="{{ url_for('static', filename='uploads/' + filename) }}" alt="Uploaded Image">
+    <h2>{{ artist }}</h2>
+    <p><strong>Years:</strong> {{ years }}</p>
+    <p><strong>Genre:</strong> {{ genre }}</p>
+    <p><strong>Nationality:</strong> {{ nationality }}</p>
+    <p><strong>Bio:</strong> {{ bio }}</p>
+    <p><strong>Wikipedia:</strong> <a href="{{ wikipedia }}">{{ wikipedia }}</a></p>
+    <p><strong>Famous Paintings:</strong> {{ paintings }}</p>
+</body>
+</html>
